@@ -8,7 +8,7 @@ setup_yocto:
 	git clone -b kirkstone https://github.com/agherzan/meta-raspberrypi.git
 
 start_bitbake:
-	bash -c "source ../../sources/poky/oe-init-build-env rpi-build && bitbake core-image-sato"
+	bash -c "source sources/poky/oe-init-build-env rpi-build && bitbake core-image-sato"
 
 reset:
 	rm -drf rpi-build/cache rpi-build/downloads rpi-build/sstate-cache rpi-build/tmp rpi-build/bitbake-cookerdaemon.log
