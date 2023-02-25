@@ -25,6 +25,9 @@ setup_yocto:
 	git clone -b kirkstone https://github.com/agherzan/meta-raspberrypi.git
 
 start_bitbake:
+	# https://askubuntu.com/questions/99651/apt-get-warning-no-support-for-locale-en-us-utf8
+	#sudo dpkg-reconfigure locales
+	#sudo update-locale LANG=en_US.UTF-8
 	bash -c "source sources/poky/oe-init-build-env rpi-build && bitbake core-image-sato"
 
 reset:
