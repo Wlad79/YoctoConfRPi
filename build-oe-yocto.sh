@@ -9,7 +9,7 @@ populate_sdk()
 	source sources/poky/oe-init-build-env build-raspi
 	#bitbake core-image-minimal -c populate_sdk
 	#bitbake core-image-full-cmdline -c populate_sdk
-	bitbake raspi -c populate_sdk
+	bitbake raspberrypi-general-image -c populate_sdk
 	cd conf
 }
 
@@ -47,10 +47,10 @@ case $1 in
 		cd ../../
 		source sources/poky/oe-init-build-env build-raspi
 		pwd
-		cp -vr "conf/meta-mylayer/recipes-kernel/linux/files/0003-patch-5.15.34-rt40.patch" ../sources/meta-raspberrypi/recipes-kernel/linux/files
-		cp -vr "conf/meta-mylayer/recipes-kernel/linux/files/can.cfg" ../sources/meta-raspberrypi/recipes-kernel/linux/files
+		#cp -vr "conf/meta-mylayer/recipes-kernel/linux/files/0003-patch-5.15.34-rt40.patch" ../sources/meta-raspberrypi/recipes-kernel/linux/files
+		#cp -vr "conf/meta-mylayer/recipes-kernel/linux/files/can.cfg" ../sources/meta-raspberrypi/recipes-kernel/linux/files
 		#bitbake core-image-minimal
-		bitbake raspi
+		bitbake raspberrypi-general-image
 		#bitbake core-image-sato # error with cc1plus
 		#bitbake core-image-weston
 		#bitbake core-image-full-cmdline
@@ -85,6 +85,8 @@ case $1 in
 		;;
 	reset )
 		cd ../../
+		source sources/poky/oe-init-build-env build-raspi
+		bitbake -c cleanall
 		rm -drf build-raspi/tmp-glibc
 		rm -drf build-raspi/tmp
 		rm -drf build-raspi/sstate-cache
@@ -92,7 +94,7 @@ case $1 in
 		rm -drf build-raspi/cache
 		rm sources/meta-raspberrypi/recipes-kernel/linux/files/0003-patch-5.15.34-rt40.patch
 		rm sources/meta-raspberrypi/recipes-kernel/linux/files/can.cfg
-		cd build-raspi/conf
+		cd conf
 		;;
 esac
 
