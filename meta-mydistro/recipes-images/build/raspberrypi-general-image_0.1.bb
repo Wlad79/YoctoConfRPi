@@ -12,6 +12,8 @@ python do_display_banner() {
 
 addtask display_banner before do_build
 
+IMAGE_INSTALL:remove = "initing debugging gps can"
+
 inherit core-image
 
 # https://docs.yoctoproject.org/dev-manual/init-manager.html?highlight=sysvinit#using-systemd

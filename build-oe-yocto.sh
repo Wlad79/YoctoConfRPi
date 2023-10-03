@@ -47,8 +47,8 @@ case $1 in
 		cd ../../
 		source sources/poky/oe-init-build-env build-raspi
 		pwd
-		#cp -vr "conf/meta-mylayer/recipes-kernel/linux/files/0003-patch-5.15.34-rt40.patch" ../sources/meta-raspberrypi/recipes-kernel/linux/files
-		#cp -vr "conf/meta-mylayer/recipes-kernel/linux/files/can.cfg" ../sources/meta-raspberrypi/recipes-kernel/linux/files
+		cp -vr "conf/meta-mylayer/recipes-kernel/linux/files/0003-patch-5.15.34-rt40.patch" ../sources/meta-raspberrypi/recipes-kernel/linux/files
+		cp -vr "conf/meta-mylayer/recipes-kernel/linux/files/can.cfg" ../sources/meta-raspberrypi/recipes-kernel/linux/files
 		#bitbake core-image-minimal
 		bitbake raspberrypi-general-image
 		#bitbake core-image-sato # error with cc1plus
@@ -86,14 +86,14 @@ case $1 in
 	reset )
 		cd ../../
 		source sources/poky/oe-init-build-env build-raspi
-		bitbake -c cleanall
-		rm -drf build-raspi/tmp-glibc
-		rm -drf build-raspi/tmp
-		rm -drf build-raspi/sstate-cache
-		rm -drf build-raspi/downloads
-		rm -drf build-raspi/cache
-		rm sources/meta-raspberrypi/recipes-kernel/linux/files/0003-patch-5.15.34-rt40.patch
-		rm sources/meta-raspberrypi/recipes-kernel/linux/files/can.cfg
+		bitbake raspberrypi-general-image -c cleanall
+		rm -drfv tmp-glibc
+		rm -drfv tmp
+		rm -drfv sstate-cache
+		rm -drfv downloads
+		rm -drfv cache
+		rm -v sources/meta-raspberrypi/recipes-kernel/linux/files/0003-patch-5.15.34-rt40.patch
+		rm -v sources/meta-raspberrypi/recipes-kernel/linux/files/can.cfg
 		cd conf
 		;;
 esac
