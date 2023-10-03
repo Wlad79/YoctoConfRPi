@@ -15,4 +15,4 @@ addtask display_banner before do_build
 inherit core-image
 
 
-IMAGE_INSTALL:append = " initing debugging can gps"
+IMAGE_INSTALL += " initing debugging can gps"
