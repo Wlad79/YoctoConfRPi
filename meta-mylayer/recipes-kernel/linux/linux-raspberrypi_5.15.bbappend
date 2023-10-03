@@ -1,5 +1,5 @@
 SUMMARY = "bitbake-layers recipe kernel append"
-DESCRIPTION = "Recipe created by bitbake-layers"
+DESCRIPTION = "Recipe kernel append created by bitbake-layers"
 LICENSE = "MIT"
 
 FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"

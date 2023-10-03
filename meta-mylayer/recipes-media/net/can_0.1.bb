@@ -1,11 +1,11 @@
-SUMMARY = "bitbake-layers recipe"
-DESCRIPTION = "Recipe created by bitbake-layers"
+SUMMARY = "bitbake-layers recipe can interfaces"
+DESCRIPTION = "Recipe can created by bitbake-layers"
 LICENSE = "MIT"
 
 python do_display_banner() {
     bb.plain("***********************************************");
     bb.plain("*                                             *");
-    bb.plain("*  Example recipe created by bitbake-layers   *");
+    bb.plain("*       can recipe created for wfdistro       *");
     bb.plain("*                                             *");
     bb.plain("***********************************************");
 }
@@ -16,6 +16,6 @@ addtask display_banner before do_build
 #make sure it is loaded followed driver from Kernel at runtime: # modprobe gs_usb
 
 #CAN over USB: dumpcan
-IMAGE_INSTALL:append = " can-utils"
+IMAGE_INSTALL += " can-utils"
 
 # see docs in my google drive for more (C-api and maintanance) or https://github.com/INNO-MAKER/usb2can
