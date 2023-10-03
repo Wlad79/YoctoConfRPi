@@ -6,9 +6,10 @@ populate_sdk()
 	#usage: $ source build-oe-yocto.sh && populate_sdk
 	#export PATH=$(pwd)/../../sources/poky/bitbake/bin:$PATH
 	cd ../../
-	source sources/poky/oe-init-build-env build-rpi
+	source sources/poky/oe-init-build-env build-raspi
 	#bitbake core-image-minimal -c populate_sdk
-	bitbake core-image-full-cmdline -c populate_sdk
+	#bitbake core-image-full-cmdline -c populate_sdk
+	bitbake raspi -c populate_sdk
 	cd conf
 }
 
@@ -17,7 +18,7 @@ uboot()
 	#usage: $ source build-oe-yocto.sh && uboot
 	#export PATH=$(pwd)/../../sources/poky/bitbake/bin:$PATH
 	cd ../../
-	source sources/poky/oe-init-build-env build-rpi
+	source sources/poky/oe-init-build-env build-raspi
 	bitbake u-boot -c menuconfig
 	cd conf
 }
@@ -27,14 +28,14 @@ case $1 in
         #calling1: . build-oe-yocto.sh add-layer conf/meta-mylayer
         #calling2: ./build-oe-yocto.sh add-layer conf/meta-mylayer
         cd ../../
-        source sources/poky/oe-init-build-env build-rpi
+        source sources/poky/oe-init-build-env build-raspi
         bitbake-layers create-layer $2 #../../meta-ke
         bitbake-layers add-layer $2
         cd conf
         ;;
 	show-all-infos )
         cd ../../
-        source sources/poky/oe-init-build-env build-rpi
+        source sources/poky/oe-init-build-env build-raspi
         bitbake-layers show-layers
         bitbake-layers --help
         cd conf
@@ -44,12 +45,12 @@ case $1 in
 		#export PATH=$(pwd)/../../sources/poky/bitbake/bin:$PATH
 		echo "Date: " `date`
 		cd ../../
-		source sources/poky/oe-init-build-env build-rpi
+		source sources/poky/oe-init-build-env build-raspi
 		pwd
-		cp -vr "conf/meta-mylayer/recipes-bordsupportpack/linux/file/0003-patch-5.15.34-rt40.patch" ../sources/meta-raspberrypi/recipes-kernel/linux/files
-		cp -vr "conf/meta-mylayer/recipes-bordsupportpack/linux/file/can.cfg" ../sources/meta-raspberrypi/recipes-kernel/linux/files
+		cp -vr "conf/meta-mylayer/recipes-kernel/linux/files/0003-patch-5.15.34-rt40.patch" ../sources/meta-raspberrypi/recipes-kernel/linux/files
+		cp -vr "conf/meta-mylayer/recipes-kernel/linux/files/can.cfg" ../sources/meta-raspberrypi/recipes-kernel/linux/files
 		#bitbake core-image-minimal
-		bitbake core-image-full-cmdline
+		bitbake raspi
 		#bitbake core-image-sato # error with cc1plus
 		#bitbake core-image-weston
 		#bitbake core-image-full-cmdline
@@ -62,7 +63,7 @@ case $1 in
         #export PATH=$(pwd)/../../sources/poky/bitbake/bin:$PATH
 		echo "Date: " `date`
 		cd ../../
-		source sources/poky/oe-init-build-env build-rpi
+		source sources/poky/oe-init-build-env build-raspi
 		bitbake virtual/kernel -c menuconfig
 		echo "Date: " `date`
 		cd conf
@@ -75,17 +76,24 @@ case $1 in
 		;;
 	flashing )
 		#https://blog.lazy-evaluation.net/posts/linux/bmaptool.html
-		time sudo bmaptool copy ../tmp/deploy/images/raspberrypi3-64/core-image-sato-raspberrypi3-64.wic.bz2 /dev/sdb
+		#time sudo bmaptool copy ../tmp/deploy/images/raspberrypi3-64/core-image-sato-raspberrypi3-64.wic.bz2 /dev/sdb
+		bzcat ../tmp/deploy/images/raspberrypi3-64/core-image-full-cmdline-raspberrypi3-64.wic.bz2 | sudo dd of=/dev/sda bs=1M conv=fsync
+		;;
+	remove_read_only_at_sdcard )
+		#https://www.alphr.com/remove-write-protection-from-sd-card/
+		sudo hdparm -r0 /dev/sdb
 		;;
 	reset )
 		cd ../../
-		rm -drf build-rpi/tmp-glibc
-		rm -drf build-rpi/tmp
-		rm -drf build-rpi/sstate-cache
-		rm -drf build-rpi/downloads
-		rm -drf build-rpi/cache
+		rm -drf build-raspi/tmp-glibc
+		rm -drf build-raspi/tmp
+		rm -drf build-raspi/sstate-cache
+		rm -drf build-raspi/downloads
+		rm -drf build-raspi/cache
 		rm sources/meta-raspberrypi/recipes-kernel/linux/files/0003-patch-5.15.34-rt40.patch
 		rm sources/meta-raspberrypi/recipes-kernel/linux/files/can.cfg
-		cd build-rpi/conf
+		cd build-raspi/conf
 		;;
 esac
+
+# cd conf
