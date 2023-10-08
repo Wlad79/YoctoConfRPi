@@ -70,14 +70,14 @@ case $1 in
 		;;
 	makeSDK )
 		echo "Date: " `date`
-		./../tmp/deploy/sdk/poky-glibc-x86_64-core-image-minimal-cortexa53-raspberrypi3-64-toolchain-4.0.12.sh
-		#for cross compiling:$ . /opt/poky/4.0.12/environment-setup-cortexa53-poky-linux
+		./../tmp/deploy/sdk/./wfdistro-glibc-x86_64-raspberrypi-general-image-cortexa53-raspberrypi3-64-toolchain-0.0.2.sh
+		#for cross compiling:$ . /opt/wfdistro/0.0.2/environment-setup-cortexa53-wfdistro-linux
 		echo "Date: " `date`
 		;;
 	flashing )
 		#https://blog.lazy-evaluation.net/posts/linux/bmaptool.html
 		#time sudo bmaptool copy ../tmp/deploy/images/raspberrypi3-64/core-image-sato-raspberrypi3-64.wic.bz2 /dev/sdb
-		bzcat ../tmp/deploy/images/raspberrypi3-64/core-image-full-cmdline-raspberrypi3-64.wic.bz2 | sudo dd of=/dev/sda bs=1M conv=fsync
+		bzcat ../tmp/deploy/images/raspberrypi3-64/raspberrypi-general-image-raspberrypi3-64.wic.bz2 | sudo dd of=/dev/sda bs=1M conv=fsync
 		;;
 	remove_read_only_at_sdcard )
 		#https://www.alphr.com/remove-write-protection-from-sd-card/
@@ -92,8 +92,8 @@ case $1 in
 		rm -drfv sstate-cache
 		rm -drfv downloads
 		rm -drfv cache
-		rm -v sources/meta-raspberrypi/recipes-kernel/linux/files/0003-patch-5.15.34-rt40.patch
-		rm -v sources/meta-raspberrypi/recipes-kernel/linux/files/can.cfg
+		rm -v ../sources/meta-raspberrypi/recipes-kernel/linux/files/0003-patch-5.15.34-rt40.patch
+		rm -v ../sources/meta-raspberrypi/recipes-kernel/linux/files/can.cfg
 		cd conf
 		;;
 esac

@@ -49,19 +49,41 @@ IMAGE_INSTALL += " gdbserver boost"
 #!!!!!!!!!!!!!!!!!!!!!!disable this in order to get console messages back
 #ENABLE_UART = "1"
 
-#Bildverarbeitung
-#CORE_IMAGE_EXTRA_INSTALL += " opencv opencv-samples"
-#VIDEO_CAMERA = "1"
-
 #Grafik:
+MACHINE_FEATURES:append = " vc4graphics"
 ##IMAGE_INSTALL:append = " weston"
 ##DISTRO_FEATURES += " x11 wayland" # sdl2 libsdl2-dev
 #IMAGE_INSTALL:append = " cmake"
 #IMAGE_FEATURES += "ssh-server-dropbear"
-#DISTRO_FEATURES += " sdl sdl2 opengl vulkan"
-#DISTRO_FEATURES += " gles2"
-#MACHINE_FEATURES:append = " vc4graphics"
+#DISTRO_FEATURES += " sdl opengl vulkan"
 ##TOOLCHAIN_HOST_TASK += " nativesdk-cmake"
 ##TOOLCHAIN_TARGET_TASK += " libgl-mesa-dev "
 ##REQUIRED_DISTRO_FEATURES += " opengl "
-##MACHINE_FEATURES += " vc4graphics "
+
+
+# Adding a user
+inherit extrausers
+EXTRA_USERS_PARAMS = "usermod -P '' root;"
+#https://stackoverflow.com/questions/37788111/meta-qt-yocto-layer-change-default-qt-platform-qt-qpa-platform
+#EXTRA_USERS_PARAMS = "export QT_QPA_PLATFORM=eglfs;"
+
+#Bildverarbeitung
+#CORE_IMAGE_EXTRA_INSTALL += " opencv opencv-samples"
+#VIDEO_CAMERA = "1"
+
+#Add Gstreamer
+IMAGE_INSTALL:append = " gstreamer1.0"
+IMAGE_INSTALL:append = " gstreamer1.0-plugins-base"
+IMAGE_INSTALL:append = " gstreamer1.0-plugins-good"
+#pkgconfig cmake
+IMAGE_INSTALL:append = " gstreamer1.0-plugins-bad"
+RDEPENDS += " pkgconfig cmake"
+DEPENDS += " pkgconfig cmake"
+# https://stackoverflow.com/questions/66492990/yocto-gstreamer1-0-plugins-bad-1-16-3-bbdo-configure-in-yocto
+#PACKAGECONFIG_remove_pn-qtmultimedia = "gstreamer"
+#PACKAGECONFIG:append_pn-qtmultimedia = " opengl"
+IMAGE_INSTALL:append = " gstreamer1.0-rtsp-server"
+
+#Logo splash:
+IMAGE_INSTALL:append = " psplash"
+IMAGE_FEATURES:append = " splash"
