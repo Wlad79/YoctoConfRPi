@@ -87,3 +87,6 @@ IMAGE_INSTALL:append = " gstreamer1.0-rtsp-server"
 #Logo splash:
 IMAGE_INSTALL:append = " psplash"
 IMAGE_FEATURES:append = " splash"
+#IMAGE_INSTALL:append = " splash-app"
+#IMAGE_INSTALL:append = " l4t-graphics-demos"
+RASPBERRYPI_DISPLAY = "1"

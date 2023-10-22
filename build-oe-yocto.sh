@@ -40,6 +40,13 @@ case $1 in
         bitbake-layers --help
         cd conf
         ;;
+	cleanall )
+		echo "Date: " `date`
+		cd ../../
+		source sources/poky/oe-init-build-env build-raspi
+		bitbake raspberrypi-general-image -c cleanall
+		cd conf
+		;;
     start )
         # $ source build-oe-yocto.sh start
 		#export PATH=$(pwd)/../../sources/poky/bitbake/bin:$PATH
