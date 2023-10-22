@@ -53,9 +53,6 @@ case $1 in
 		echo "Date: " `date`
 		cd ../../
 		source sources/poky/oe-init-build-env build-raspi
-		pwd
-		cp -vr "conf/meta-mydistro/recipes-kernel/linux/files/0003-patch-5.15.34-rt40.patch" ../sources/meta-raspberrypi/recipes-kernel/linux/files
-		cp -vr "conf/meta-mydistro/recipes-kernel/linux/files/can.cfg" ../sources/meta-raspberrypi/recipes-kernel/linux/files
 		#bitbake core-image-minimal
 		bitbake raspberrypi-general-image
 		#bitbake core-image-sato # error with cc1plus
@@ -94,15 +91,11 @@ case $1 in
 		cd ../../
 		source sources/poky/oe-init-build-env build-raspi
 		bitbake raspberrypi-general-image -c cleanall
-		rm -drfv tmp-glibc
-		rm -drfv tmp
-		rm -drfv sstate-cache
-		rm -drfv downloads
-		rm -drfv cache
-		rm -v ../sources/meta-raspberrypi/recipes-kernel/linux/files/0003-patch-5.15.34-rt40.patch
-		rm -v ../sources/meta-raspberrypi/recipes-kernel/linux/files/can.cfg
+		rm -drf tmp-glibc
+		rm -drf tmp
+		rm -drf sstate-cache
+		rm -drf downloads
+		rm -drf cache
 		cd conf
 		;;
 esac
-
-# cd conf

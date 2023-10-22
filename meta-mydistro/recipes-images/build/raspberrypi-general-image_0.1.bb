@@ -83,6 +83,7 @@ DEPENDS += " pkgconfig cmake"
 #PACKAGECONFIG_remove_pn-qtmultimedia = "gstreamer"
 #PACKAGECONFIG:append_pn-qtmultimedia = " opengl"
 IMAGE_INSTALL:append = " gstreamer1.0-rtsp-server"
+IMAGE_INSTALL:append = " libcamera"
 
 #Logo splash:
 IMAGE_INSTALL:append = " psplash"

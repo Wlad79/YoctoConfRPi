@@ -6,7 +6,7 @@ PREFERRED_VERSION_linux-raspberrypi ?= "5.15"
 
 FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"
 SRC_URI += " file://0003-patch-5.15.34-rt40.patch \
-             file://can.cfg "
+             file://interfaces.cfg "
 
 IMAGE_INSTALL:append = " kernel-modules"
 #make sure it is activated followed driver in Kernel at compile time of yocto: Geschwister Schneider UG interfaces (search for it with /)
