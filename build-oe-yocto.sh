@@ -7,9 +7,9 @@ populate_sdk()
 	#export PATH=$(pwd)/../../sources/poky/bitbake/bin:$PATH
 	cd ../../
 	source sources/poky/oe-init-build-env build-raspi
-	#bitbake core-image-minimal -c populate_sdk
+	bitbake core-image-weston -c populate_sdk
 	#bitbake core-image-full-cmdline -c populate_sdk
-	bitbake raspberrypi-general-image -c populate_sdk
+	#bitbake raspberrypi-general-image -c populate_sdk
 	cd conf
 }
 
@@ -44,7 +44,8 @@ case $1 in
 		echo "Date: " `date`
 		cd ../../
 		source sources/poky/oe-init-build-env build-raspi
-		bitbake raspberrypi-general-image -c cleanall
+		bitbake core-image-sato -c cleanall
+		bitbake core-image-weston -c cleanall
 		cd conf
 		;;
     start )
@@ -53,11 +54,21 @@ case $1 in
 		echo "Date: " `date`
 		cd ../../
 		source sources/poky/oe-init-build-env build-raspi
-		#bitbake core-image-minimal
-		bitbake raspberrypi-general-image
-		#bitbake core-image-sato # error with cc1plus
+
+		# CLI image
+		#bitbake core-image-base
+
+		#bitbake raspberrypi-general-image
+
+		# GUI X11 image
+		#bitbake core-image-sato
+
+		# GUI Wayland/Weston
 		#bitbake core-image-weston
-		#bitbake core-image-full-cmdline
+		# core-image-full-cmdline
+
+		bitbake core-image-minimal
+
 		echo "Date: " `date`
 		cd conf
 		populate_sdk
@@ -81,7 +92,10 @@ case $1 in
 	flashing )
 		#https://blog.lazy-evaluation.net/posts/linux/bmaptool.html
 		#time sudo bmaptool copy ../tmp/deploy/images/raspberrypi3-64/core-image-sato-raspberrypi3-64.wic.bz2 /dev/sdb
-		bzcat ../tmp/deploy/images/raspberrypi3-64/raspberrypi-general-image-raspberrypi3-64.wic.bz2 | sudo dd of=/dev/sda bs=1M conv=fsync
+		#bzcat ../tmp/deploy/images/raspberrypi3-64/raspberrypi-general-image-raspberrypi3-64.wic.bz2 | sudo dd of=/dev/sda bs=1M conv=fsync
+		#bzcat ../tmp/deploy/images/raspberrypi3-64/core-image-sato-raspberrypi3-64.wic.bz2 | sudo dd of=/dev/sda bs=1M conv=fsync
+		#bzcat ../tmp/deploy/images/raspberrypi3-64/core-image-base-raspberrypi3-64.wic.bz2 | sudo dd of=/dev/sda bs=1M conv=fsync
+		bzcat ../tmp/deploy/images/raspberrypi3-64/core-image-minimal-raspberrypi3-64.wic.bz2 | sudo dd of=/dev/sda bs=1M conv=fsync
 		;;
 	remove_read_only_at_sdcard )
 		#https://www.alphr.com/remove-write-protection-from-sd-card/
@@ -90,7 +104,7 @@ case $1 in
 	reset )
 		cd ../../
 		source sources/poky/oe-init-build-env build-raspi
-		bitbake raspberrypi-general-image -c cleanall
+		bitbake core-image-sato -c cleanall
 		rm -drf tmp-glibc
 		rm -drf tmp
 		rm -drf sstate-cache
