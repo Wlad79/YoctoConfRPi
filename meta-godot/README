@@ -1,0 +1,40 @@
+This README file contains information on the contents of the meta-godot layer.
+
+Please see the corresponding sections below for details.
+
+Dependencies
+============
+  TBD
+  
+  URI: <first dependency>
+  branch: <branch name>
+
+  URI: <second dependency>
+  branch: <branch name>
+
+Patches
+=======
+
+Please submit any patches against the meta-godot layer to
+https://github.com/leograba/meta-godot by pull request.
+
+
+Maintainer: Leonardo Graboski Veiga <leogveiga@gmail.com>
+
+Table of Contents
+=================
+
+  I. Adding the meta-godot layer to your build
+ II. Misc
+
+
+I. Adding the meta-godot layer to your build
+=================================================
+
+Run 'bitbake-layers add-layer meta-godot'
+
+II. Misc
+========
+
+Add to your image using IMAGE_INSTALL_apend = "godot", for instance, to your
+`local.conf`.

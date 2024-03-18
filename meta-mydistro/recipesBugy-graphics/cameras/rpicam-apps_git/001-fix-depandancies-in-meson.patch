@@ -1,0 +1,15 @@
+diff --git a/image/meson.build b/image/meson.build
+index c969e19..6dee558 100644
+--- a/image/meson.build
++++ b/image/meson.build
+@@ -11,8 +11,8 @@ image_headers = files([
+ ])
+ 
+ exif_dep = dependency('libexif', required : true)
+-jpeg_dep = dependency('libjpeg', required : true)
+-tiff_dep = dependency('libtiff-4', required : true)
++jpeg_dep = dependency('libjpeg', required : false)
++tiff_dep = dependency('libtiff-4', required : false)
+ png_dep = dependency('libpng', required : true)
+ 
+ rpicam_app_dep += [exif_dep, jpeg_dep, tiff_dep, png_dep]

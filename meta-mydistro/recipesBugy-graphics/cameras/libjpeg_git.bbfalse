@@ -1,0 +1,26 @@
+SUMMARY = "libcamera demo application"
+DESCRIPTION = "Recipe for a rpicam-apps demo application based on the libcamera demo"
+LICENSE = "MIT"
+LIC_FILES_CHKSUM = " \
+    file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302 \
+"
+
+DEPENDS += " meson libcamera pkgconfig cmake libexif"
+RDEPENDS:${PN} += " meson libcamera pkgconfig cmake libexif"
+#
+
+SRC_URI = " \
+    gitsm://git@github.com/winlibs/libjpeg.git;branch=master;protocol=https \
+"
+SRCREV = "6904e8cd02785f4faa500714d4d1e150a3497200"
+
+S = "${WORKDIR}/git"
+
+inherit cmake
+
+EXTRA_OECMAKE = ""
+
+do_install() {
+	install -d ${D}${bindir}
+	install -m 0755 libjpeg ${D}${bindir}
+}

@@ -7,7 +7,9 @@ populate_sdk()
 	#export PATH=$(pwd)/../../sources/poky/bitbake/bin:$PATH
 	cd ../../
 	source sources/poky/oe-init-build-env build-raspi
-	bitbake core-image-weston -c populate_sdk
+	#bitbake core-image-weston -c populate_sdk
+	bitbake core-image-sato -c populate_sdk
+	#bitbake core-image-minimal -c populate_sdk
 	#bitbake core-image-full-cmdline -c populate_sdk
 	#bitbake raspberrypi-general-image -c populate_sdk
 	cd conf
@@ -44,8 +46,10 @@ case $1 in
 		echo "Date: " `date`
 		cd ../../
 		source sources/poky/oe-init-build-env build-raspi
+		#bitbake core-image-weston -c cleanall
 		bitbake core-image-sato -c cleanall
-		bitbake core-image-weston -c cleanall
+		#bitbake core-image-minimal -c cleanall
+		#bitbake core-image-full-cmdline -c cleanall
 		cd conf
 		;;
     start )
@@ -55,23 +59,22 @@ case $1 in
 		cd ../../
 		source sources/poky/oe-init-build-env build-raspi
 
-		# CLI image
-		#bitbake core-image-base
-
 		#bitbake raspberrypi-general-image
-
-		# GUI X11 image
-		#bitbake core-image-sato
 
 		# GUI Wayland/Weston
 		#bitbake core-image-weston
-		# core-image-full-cmdline
 
-		bitbake core-image-minimal
+		# GUI X11 image
+		bitbake core-image-sato
+
+		# CLI image
+		#bitbake core-image-base
+		#bitbake core-image-minimal
+		#bitbake core-image-full-cmdline
 
 		echo "Date: " `date`
 		cd conf
-		populate_sdk
+		#populate_sdk
 		echo "Date: " `date`
 		;;
     kernel )
@@ -85,17 +88,20 @@ case $1 in
 		;;
 	makeSDK )
 		echo "Date: " `date`
-		./../tmp/deploy/sdk/./wfdistro-glibc-x86_64-raspberrypi-general-image-cortexa53-raspberrypi3-64-toolchain-0.0.2.sh
-		#for cross compiling:$ . /opt/wfdistro/0.0.2/environment-setup-cortexa53-wfdistro-linux
+		#./../tmp/deploy/sdk/./wfdistro-glibc-x86_64-core-image-weston-cortexa53-raspberrypi3-64-toolchain-0.0.5.sh
+		./../tmp/deploy/sdk/./wfdistro-glibc-x86_64-core-image-sato-cortexa53-raspberrypi3-64-toolchain-0.0.5.sh
+		#for cross compiling:$ . /opt/wfdistro/0.0.5/environment-setup-cortexa53-wfdistro-linux
 		echo "Date: " `date`
 		;;
 	flashing )
 		#https://blog.lazy-evaluation.net/posts/linux/bmaptool.html
 		#time sudo bmaptool copy ../tmp/deploy/images/raspberrypi3-64/core-image-sato-raspberrypi3-64.wic.bz2 /dev/sdb
-		#bzcat ../tmp/deploy/images/raspberrypi3-64/raspberrypi-general-image-raspberrypi3-64.wic.bz2 | sudo dd of=/dev/sda bs=1M conv=fsync
-		#bzcat ../tmp/deploy/images/raspberrypi3-64/core-image-sato-raspberrypi3-64.wic.bz2 | sudo dd of=/dev/sda bs=1M conv=fsync
-		#bzcat ../tmp/deploy/images/raspberrypi3-64/core-image-base-raspberrypi3-64.wic.bz2 | sudo dd of=/dev/sda bs=1M conv=fsync
-		bzcat ../tmp/deploy/images/raspberrypi3-64/core-image-minimal-raspberrypi3-64.wic.bz2 | sudo dd of=/dev/sda bs=1M conv=fsync
+		#bzcat ../tmp/deploy/images/raspberrypi3-64/core-image-weston-raspberrypi3-64.wic.bz2 | sudo dd of=/dev/sda bs=1M conv=fsync
+		bzcat ../tmp/deploy/images/raspberrypi3-64/core-image-sato-raspberrypi3-64.wic.bz2 | sudo dd of=/dev/sda bs=1M conv=fsync
+		#bzcat ../tmp/deploy/images/raspberrypi3-64/core-image-minimal-raspberrypi3-64.wic.bz2 | sudo dd of=/dev/sda bs=1M conv=fsync
+		#bzcat ../tmp/deploy/images/raspberrypi3-64/core-image-full-cmdline-raspberrypi3-64.wic.bz2 | sudo dd of=/dev/sda bs=1M conv=fsync
+		#bzcat ../tmp/deploy/images/raspberrypi5/core-image-sato-raspberrypi5.wic.bz2 | sudo dd of=/dev/sda bs=1M conv=fsync
+		#bzcat ../tmp/deploy/images/raspberrypi5/core-image-weston-raspberrypi5.wic.bz2 | sudo dd of=/dev/sda bs=1M conv=fsync
 		;;
 	remove_read_only_at_sdcard )
 		#https://www.alphr.com/remove-write-protection-from-sd-card/
@@ -104,7 +110,10 @@ case $1 in
 	reset )
 		cd ../../
 		source sources/poky/oe-init-build-env build-raspi
+		#bitbake core-image-weston -c cleanall
 		bitbake core-image-sato -c cleanall
+		#bitbake core-image-minimal -c cleanall
+		#bitbake core-image-full-cmdline -c cleanall
 		rm -drf tmp-glibc
 		rm -drf tmp
 		rm -drf sstate-cache
