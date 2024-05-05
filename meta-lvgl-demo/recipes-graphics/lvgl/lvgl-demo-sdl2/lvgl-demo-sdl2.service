@@ -2,7 +2,9 @@
 Description=Autostart LVGL demo
 
 [Service]
-#ExecStart=/usr/bin/hello
+#Type=oneshot
+Type=simple
+ExecStart=/usr/bin/lvgl-demo-sdl2
 
 [Install]
 WantedBy=multi-user.target

@@ -94,6 +94,7 @@ case $1 in
 		echo "Date: " `date`
 		;;
 	flashing )
+		# $ lsblk -> see sda for connect to of=/dev/sda
 		#https://blog.lazy-evaluation.net/posts/linux/bmaptool.html
 		#time sudo bmaptool copy ../tmp/deploy/images/raspberrypi3-64/core-image-sato-raspberrypi3-64.wic.bz2 /dev/sdb
 		#bzcat ../tmp/deploy/images/raspberrypi3-64/core-image-weston-raspberrypi3-64.wic.bz2 | sudo dd of=/dev/sda bs=1M conv=fsync
