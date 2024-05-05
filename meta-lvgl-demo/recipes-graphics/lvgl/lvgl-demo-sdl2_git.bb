@@ -11,7 +11,7 @@ SRC_URI = " \
     gitsm://git@github.com/Wlad79/lvgl-backends-demos;branch=main;protocol=https \
     file://lvgl-demo-sdl2.service \
 "
-SRCREV = "3f93033bbc8256c8a3e08b7efd60a966c8734829"
+SRCREV = "3cbd269621e7276d649b972907e01825b192c4c4"
 
 S = "${WORKDIR}/git"
 
